@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="anz.casclient">
+
+	<!--  -->
+	<browser:page
+        name="proxyAuthExample"
+        for="*"
+        class=".view.ProxyAuthExampleView"
+        permission="zope2.View"
+        allowed_interface=".interfaces.IProxyAuthExampleView"
+        />
+    
+</configure>

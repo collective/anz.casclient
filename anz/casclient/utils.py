@@ -11,7 +11,7 @@ LOG = getLogger( 'anz.casclient' )
 def retrieveResponseFromServer( url ):
     ''' Contacts the CAS Server and retrieve the response.
     '''
-    socket.setdefaulttimeout( 500 )
+    socket.setdefaulttimeout( 5 )
     try:
         response = urlopen( url )
     except HTTPError, e:

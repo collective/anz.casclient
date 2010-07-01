@@ -28,11 +28,11 @@ class ProxyAuthExampleView( BrowserView ):
         #    '{PATH TO YOUR BACK END ANZ.CASCLIENT PLUGIN}'
         self.PATH_TO_BACK_END_PLUGIN = '/backend/acl_users/anz_casclient'
     
-    def getUserInfo( self, ticket ):
+    def getUserInfo( self, pt ):
         ''' Running on back-end service to return id of the user whom the
         ticket authenticates.
         
-        @param ticket
+        @param pt
         proxy ticket.
         
         @return
@@ -42,7 +42,7 @@ class ProxyAuthExampleView( BrowserView ):
         plugin = self.context.restrictedTraverse(
             self.PATH_TO_BACK_END_PLUGIN, None )
         if plugin:
-            success, assertion = plugin.validateProxyTicket( ticket )
+            success, assertion = plugin.validateProxyTicket( pt )
             
             if success:
                 return 'Hello, %s!' % \
@@ -62,7 +62,7 @@ class ProxyAuthExampleView( BrowserView ):
         plugin = context.restrictedTraverse(
             self.PATH_TO_PROXIER_PLUGIN, None )
         if plugin:
-            assertion = plugin._getAssertion( request.SESSION )
+            assertion = plugin.getAssertion( request.SESSION )
             if not assertion:
                 return 'No assertion found.'
             else:
@@ -71,7 +71,7 @@ class ProxyAuthExampleView( BrowserView ):
                     self.BACK_END_SERVICE_URL )
                 
                 # call proxied service
-                url = '%s/@@proxyAuthExample/getUserInfo?ticket=%s' % \
+                url = '%s/@@proxyAuthExample/getUserInfo?pt=%s' % \
                     ( self.BACK_END_SERVICE_URL, pt )
                 response = retrieveResponseFromServer( url )
                 return response

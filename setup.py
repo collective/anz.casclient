@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0'
+version = '1.0.1'
 
 setup(name='anz.casclient',
       version=version,
@@ -25,8 +25,8 @@ setup(name='anz.casclient',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'ZODB3==3.8.3',
-          'zope.proxy==3.4.1',
+          'ZODB3>=3.8.3',
+          'zope.proxy>=3.4.1',
           'zope.bforest',
       ],
       entry_points="""

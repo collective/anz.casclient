@@ -4,7 +4,7 @@
 
 :author:    jiangdongjin
 :contact:   eastxing@gmail.com
-:date:      2010/07/01
+:date:      2010/09/25
 :abstract: This is a Zope PAS plugin that authenticates users against a
            CAS (Central Authentication Service) server.
 
@@ -50,7 +50,7 @@ anz.casclient have some advantages:
 
 Requirements
 ============
-- Plone 3.0 or later
+- Plone 3 or Plone 4
 - ZODB3>=3.8.3 (test under 3.8.3 only)
 - zope.proxy>=3.4.1 (test under 3.4.1 only)
 - zope.bforest

@@ -1,18 +1,26 @@
 Changelog
 =========
 
+1.1 (2012-11-22)
+----------------
+
+ - Fixed a problem when used in a Zope/ZEO environment with multiple Zope
+   clients. Make it work using the default Plone session factory solved the
+   problem. [sneridagh]
+
+ - Clean paster plugins in setup.py [sneridagh]
+
 1.0.1
+-----
 
-Update to support Plone4.
+ - Update to support Plone4.
 
-Note:
-When used under Plone3, please pin products version like this:
-ZODB3==3.8.3
-zope.proxy==3.4.1
+Note: When used under Plone3, please pin products version like this::
 
--------------------
+    ZODB3==3.8.3
+    zope.proxy==3.4.1
 
 1.0
--------------------
+---
 
-- Initial release
+ - Initial release

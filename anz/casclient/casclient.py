@@ -30,6 +30,12 @@ from anz.casclient.validationspecification import Cas10TicketValidator, \
 from anz.casclient.exceptions import BaseException
 from anz.casclient.utils import retrieveResponseFromServer
 
+try:
+    from Products.CMFPlone.factory import _IMREALLYPLONE4
+    PLONE4 = True
+except ImportError:
+    PLONE4 = False
+
 LOG = getLogger( 'anz.casclient' )
 
 addAnzCASClientForm = PageTemplateFile(
@@ -218,6 +224,18 @@ class AnzCASClient( BasePlugin, Cacheable ):
             # Get session token as id, it is more reliable
             sessionId = session.getContainerKey()
             self._sessionStorage.addSession( ticket, sessionId )
+
+            # Create a session in the default Plone session factory for username
+            # depending on the PLONE version used
+            username = assertion.getPrincipal().getId()
+            if PLONE4:
+                self.session._setupSession(username, request.response)
+            else:
+                # is PLONE3
+                cookie = self.session.source.createIdentifier(username)
+                creds['cookie'] = cookie
+                creds['source'] = 'plone.session'
+                self.session.setupSession(username, request.response)
 
             # Save assertion into session
             if self.useSession:

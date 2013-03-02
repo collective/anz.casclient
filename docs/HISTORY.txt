@@ -1,8 +1,15 @@
 Changelog
 =========
 
-1.1 (2012-11-22)
+1.1 (devel)
 ----------------
+ - Fixed a problem in Plone 4.3 that forces to cast the resultant username to an
+   str before passing it to plone.session for session creation. It's needed to
+   cast username which is an unicode type to an str as plone.session does a
+   direct concatenation of unicode username and other string types that leads to
+   an UnicodeDecode error otherwise. It's needed to address plone.session to do
+   not so. Meanwhile, casting the username assumes that there are non ascii
+   chars in it.
 
  - Fixed a problem when used in a Zope/ZEO environment with multiple Zope
    clients. Make it work using the default Plone session factory solved the

@@ -229,7 +229,13 @@ class AnzCASClient( BasePlugin, Cacheable ):
             # depending on the PLONE version used
             username = assertion.getPrincipal().getId()
             if PLONE4:
-                self.session._setupSession(username, request.response)
+                # It's needed to cast username which is an unicode type to an
+                # str as plone.session does a direct concatenation of unicode
+                # username and other string types that leads to an UnicodeDecode
+                # error otherwise. It's needed to address plone.session to do
+                # not so. Meanwhile, casting the username assumes that there are
+                # non ascii chars in it.
+                self.session._setupSession(str(username), request.response)
             else:
                 # is PLONE3
                 cookie = self.session.source.createIdentifier(username)

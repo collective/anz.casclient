@@ -9,13 +9,16 @@ Changelog
    direct concatenation of unicode username and other string types that leads to
    an UnicodeDecode error otherwise. It's needed to address plone.session to do
    not so. Meanwhile, casting the username assumes that there are non ascii
-   chars in it.
+   chars in it [sneridagh]
 
  - Fixed a problem when used in a Zope/ZEO environment with multiple Zope
    clients. Make it work using the default Plone session factory solved the
    problem. [sneridagh]
 
  - Clean paster plugins in setup.py [sneridagh]
+
+ - Add an extra validation for CAS2.0 service ticket via SAML. This enables the
+   extraction of extra user properties. [sneridagh]
 
 1.0.1
 -----

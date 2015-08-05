@@ -28,6 +28,7 @@ setup(name='anz.casclient',
           'ZODB3>=3.8.3',
           'zope.proxy>=3.4.1',
           'zope.bforest',
+          'requests'
       ],
       entry_points="""
       # -*- Entry points: -*-

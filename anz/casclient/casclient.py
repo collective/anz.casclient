@@ -25,8 +25,10 @@ from anz.casclient.assertion import Assertion
 from anz.casclient.principal import Principal
 from anz.casclient.proxygrantingticketstorage import ProxyGrantingTicketStorage
 from anz.casclient.sessionmappingstorage import SessionMappingStorage
-from anz.casclient.validationspecification import Cas10TicketValidator, \
-     Cas20ServiceTicketValidator, Cas20ProxyTicketValidator
+from anz.casclient.validationspecification import Cas10TicketValidator
+from anz.casclient.validationspecification import Cas20ServiceTicketValidator
+from anz.casclient.validationspecification import Cas20ProxyTicketValidator
+from anz.casclient.validationspecification import Cas20SAMLServiceTicketValidator
 from anz.casclient.exceptions import BaseException
 from anz.casclient.utils import retrieveResponseFromServer
 
@@ -126,6 +128,9 @@ class AnzCASClient( BasePlugin, Cacheable ):
     # These URLs are proxier's proxyCallbackUrl.
     allowedProxyChains = []
 
+    # Use SAML validation for service ticket validation on CAS 2.0 flow.
+    SAMLValidate = False
+
     security = ClassSecurityInfo()
 
     _properties = (
@@ -182,6 +187,12 @@ class AnzCASClient( BasePlugin, Cacheable ):
             'id': 'allowedProxyChains',
             'label': 'Allowed Proxy Chains',
             'type': 'lines',
+            'mode': 'w'
+            },
+        {
+            'id': 'SAMLValidate',
+            'label': 'Validate service ticket with SAML',
+            'type': 'boolean',
             'mode': 'w'
             },
         )
@@ -412,8 +423,12 @@ class AnzCASClient( BasePlugin, Cacheable ):
                     allowedProxyChains=self.allowedProxyChains,
                     renew=self.renew )
             else:
-                validator = Cas20ServiceTicketValidator(
-                    self.casServerUrlPrefix, self._pgtStorage, self.renew )
+                if self.SAMLValidate:
+                    validator = Cas20SAMLServiceTicketValidator(
+                        self.casServerUrlPrefix, self._pgtStorage, self.renew)
+                else:
+                    validator = Cas20ServiceTicketValidator(
+                        self.casServerUrlPrefix, self._pgtStorage, self.renew )
 
         return validator.validate(
             ticket, service, self.getProxyCallbackUrl() )

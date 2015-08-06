@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.2 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 1.1 (2015-08-06)
 ----------------
  - Fixed a problem in Plone 4.3 that forces to cast the resultant username to an

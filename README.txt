@@ -44,7 +44,7 @@ anz.casclient have some advantages:
 
 - anz.casclient provides full CAS 1.0/2.0 protocol implementation.
 - anz.casclient implemented Single-Sign-Out.
-- anz.casclient provides a framework that similar as the official java 
+- anz.casclient provides a framework that similar as the official java
   client implementation, this will make it easy to follow the evolution of
   CAS client.
 
@@ -60,7 +60,7 @@ Installation
 To install anz.casclient into the global Python environment (or a
 workingenv), using a traditional Zope 2 instance, you can do this:
 
-* When you're reading this you have probably already run 
+* When you're reading this you have probably already run
   ``easy_install anz.casclient``. Find out how to install setuptools
   (and EasyInstall) here:
   http://peak.telecommunity.com/DevCenter/EasyInstall
@@ -83,7 +83,7 @@ plone.recipe.zope2instance recipe to manage your project, you can do this:
     eggs =
         ...
         anz.casclient
-       
+
 * Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
 
 ::
@@ -93,13 +93,13 @@ plone.recipe.zope2instance recipe to manage your project, you can do this:
     ...
     zcml =
         anz.casclient
-      
+
 * Re-run buildout, e.g. with:
 
 ::
 
     $ ./bin/buildout
-        
+
 You can skip the ZCML slug if you are going to explicitly include the
 package from another package's configure.zcml file.
 
@@ -125,7 +125,7 @@ to the top.
 Click 'Extraction' to configure 'Extraction Plugins', move 'anz_casclient'
 to the top.
 
-Go into 'Properties' tab to configure CAS related properties. 
+Go into 'Properties' tab to configure CAS related properties.
 
 ==============================  ===========  ==============================
 Property                        Required     Note
@@ -254,7 +254,7 @@ If you use 'login portlet' to login, you should remove the stock Plone
 new 'CAS login portlet' to authenticate users against CAS or customize
 collective.castle_ to work with anz.casclient.
 
-.. _collective.castle: http://plone.org/products/collective.castle/ 
+.. _collective.castle: http://plone.org/products/collective.castle/
 
 Configure 'CAS logout' entrance
 -------------------------------
@@ -278,14 +278,14 @@ its contents looks like:
  ##title=CAS Logout
  ##
  from Products.CMFCore.utils import getToolByName
- 
+
  request = container.REQUEST
  portal = context.portal_url.getPortalObject()
  cas_client_plugin = portal.acl_users.anz_casclient
 
  mt = getToolByName( context, 'portal_membership' )
  mt.logoutUser( REQUEST=request )
- 
+
  request.RESPONSE.redirect( cas_client_plugin.casServerUrlPrefix + '/logout' )
 
 How to use proxy authentication
@@ -308,13 +308,13 @@ it, you can see the details `here. <http://www.jasig.org/cas/proxy-authenticatio
 
  def __init__( self, context, request ):
      super(ProxyAuthExampleView, self).__init__( context, request )
-        
+
      # eg. http://xx.xx.xx.xx:8080/backend
      self.BACK_END_SERVICE_URL = 'http://{domain of your zope instance}:{port}/backend'
-        
+
      # eg. /plone/acl_users/anz_casclient
      self.PATH_TO_PROXIER_PLUGIN = '/plone/acl_users/anz_casclient'
-        
+
      # eg. /backend/acl_users/anz_casclient
      self.PATH_TO_BACK_END_PLUGIN = '/backend/acl_users/anz_casclient'
 
@@ -327,6 +327,19 @@ it, you can see the details `here. <http://www.jasig.org/cas/proxy-authenticatio
 ::
 
  Hello, tom!
+
+
+SAML service ticket validation
+==============================
+From version 1.1, the server is able to connect to a CAS server 3.x and above
+and validate the service ticket (ST) against the CAS server using SAML, in order
+to retrieve the extra fields for the authenticated user that the CAS server may
+be providing. To use his feature, it's required to configure the plugin to use
+the SAML validation by configuring the **SAMLValidate** property to ``True``.
+
+In order to do something with the retrieved properties an event
+``ISAMLPropertiesExist`` is emmited for a subscriber to be hooked into it.
+
 
 ToDo
 ====
